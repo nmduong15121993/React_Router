@@ -1,22 +1,34 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
-import {Main} from './Component/Main';
-import {Test} from './Component/Test';
-import {Main1} from './Component/Main1';
-import {Main2} from './Component/Main2';
+// component 
+import {Login} from "./Component/Login/Login";
+import { Admin } from "./Component/Admin/Admin";
+import {Main1} from "./Component/Main/Main1";
 
 const App = () => {
   return (
     <Router>
-      <Main />
-      <Route path="/test" exact component={Test} />
-      <Route path="/main1" exact component={Main1} />
-      <Route path="/main2" exact component={Main2} />
-    </Router>
+      <Switch>
+        <Route path="/login" exact>
+          <Login/> 
+        </Route>
 
+      <Route path="/main1" exact component={Main1} />
+
+
+        <Route 
+          path="/" 
+          render={() => {return localStorage.getItem("checkLogin") 
+          ? <Admin/> 
+          : <Redirect to="/login" />
+            }
+          } 
+        >
+        </Route>
+
+      </Switch>
+    </Router>
   )
 }
-
 export default App;
